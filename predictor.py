@@ -56,4 +56,4 @@ def score():
 
 # Start the app server
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8848, debug=True)
+    app.run(host='0.0.0.0', port=9000, debug=True)
