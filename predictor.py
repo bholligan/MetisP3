@@ -7,21 +7,10 @@ import pickle
 
 #---------- MODEL IN MEMORY ----------------#
 
-# Read the scientific data on breast cancer survival,
-# Build a LogisticRegression predictor on it
-patients = pd.read_csv("haberman.data", header=None)
-patients.columns=['age','year','nodes','survived']
-patients=patients.replace(2,0)  # The value 2 means death in 5 years
-
-X = patients[['age','year','nodes']]
-Y = patients['survived']
-PREDICTOR = LogisticRegression().fit(X,Y)
-
-#*********
-
 # Load the model from a pickle file
 clf = pickle.load('#filename.pkl')
-
+x_median = # Put array of features that are the median person
+median_prob = clf.predict_proba(x_median)[1]
 
 #---------- URLS AND WEB PAGES -------------#
 
@@ -47,9 +36,10 @@ def score():
     # Get decision score for our example that came with the request
     data = request.json
     x = np.matrix(data["example"])
-    score = PREDICTOR.predict_proba(x)
+    person_prob = clf.predict_proba(x)[1]
+    rel_score = person_prob/median_prob
     # Put the result in a nice dict so we can send it as json
-    results = {"score": score[0,1]}
+    results = {"rel_score": rel_score}
     return jsonify(results)
 
 #--------- RUN WEB APP SERVER ------------#

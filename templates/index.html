@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Prediction Wizard</title>
+    <title>Diabetes Risk</title>
     <link rel="stylesheet" href="static/d3.slider.css" />
     <style>
 
@@ -46,7 +46,7 @@
 
 
     <div id="chart_area" class="wrapper">
-      <h2>5 Year Survival Chance After Breast Cancer Surgery</h2>
+      <h2>Relative Probability of Getting Diabetes</h2>
       <p class="space"></p>
       <div id="bar_chart">
       </div>
@@ -54,14 +54,14 @@
 
     <div id="sliders" class="wrapper">
 
-      <h2 class="feature">Age: <span id="age">25</span></h2>
+      <h2 class="feature">Sugar Intake: <span id="sugar">99.26</span></h2>
+      <div id="sugar_slider"></div>
+
+      <h2 class="feature">Age: <span id="age">48</span></h2>
       <div id="age_slider"></div>
 
-      <h2 class="feature">Year: <span id="year">2010</span></h2>
-      <div id="year_slider"></div>
-
-      <h2 class="feature">Number of malignant lymph nodes: <span id="nodes">1</span></h2>
-      <div id="nodes_slider"></div>
+      <h2 class="feature">Cholesterol Intake: <span id="cholesterol">218</span></h2>
+      <div id="cholesterol_slider"></div>
 
     </div>
 
@@ -74,10 +74,12 @@
 
      <!-- SINGLE BAR CHART -->
 
-     var current_age = 25;
-     var current_year = 2010;
-     var current_nodes = 1;
-     var current_risk = 97.0;
+     var current_sugar = 99.26;
+     var current_age = 48;
+     var current_cholesterol = 218;
+     var current_risk = 1;
+     var median_prob = .3;
+     var max_prob = 1/median_prob;
 
      var chart = d3.select("#bar_chart")
                    .append("svg:svg")
@@ -85,7 +87,7 @@
                    .attr("height", 100);
 
      var chance_scale = d3.scale.linear()
-                                .domain([0, 100])
+                                .domain([0, max_prob])
                                 .range([0, 800]);
 
      var bar = chart.append("g")
@@ -105,16 +107,14 @@
         .attr("text-anchor", "middle")
         .attr("fill", "white")
         .attr("font-size", 20)
-        .text( current_risk.toFixed(1) + "%");
+        .text( current_risk.toFixed(2));
 
 
      <!-- FUNCTION TO GET CHANCE FROM YOUR PREDICTOR WITH AJAX AND CHANGE BAR  HEIGHT -->
-     function getAndDrawChance(age, year, nodes){
-
-      year = year - 1900;
+     function getAndDrawChance(sugar, age, cholesterol){
 
       var data = JSON.stringify({
-        example: [age, year, nodes]
+        example: [* PUT ALL FEATURES HERE, INCLUDING SLIDERS AND MEDIAN *]
       });
 
        $.ajax({
@@ -125,12 +125,12 @@
          async: true,
          data: data,
          success: function (data) {
-           var chance = 100 * data["score"];
+           var chance = 100 * data["rel_score"];
            d3.select("#chancebar")
              .attr("width", chance_scale(chance));
            d3.select("#percent_text")
              .attr("x", chance_scale(chance-5))
-             .text(chance.toFixed(1) + "%");
+             .text(chance.toFixed(2));
          },
          error: function (result) {
          }
@@ -140,47 +140,48 @@
 
      <!-- SLIDERS -->
 
+     d3.select('#sugar_slider')
+       .call(
+         d3.slider()
+           .value(current_sugar)
+           .step(10)
+           .max(1070)
+           .axis(true)
+           .on("slide", function(evt,value) {
+             d3.select('#sugar').text(value);
+             current_sugar = value;
+             getAndDrawChance(current_sugar, current_age, current_cholesterol)
+           }
+           )
+       );
+
      d3.select('#age_slider')
        .call(
          d3.slider()
            .value(current_age)
+           .min(18)
+           .max(80)
            .step(1)
            .axis(true)
            .on("slide", function(evt,value) {
              d3.select('#age').text(value);
              current_age = value;
-             getAndDrawChance(current_age, current_year, current_nodes)
+             getAndDrawChance(current_sugar, current_age, current_cholesterol)
            }
            )
        );
 
-     d3.select('#year_slider')
+     d3.select('#cholesterol_slider')
        .call(
          d3.slider()
-           .value(current_year)
-           .min(1950)
-           .max(2010)
-           .step(1)
+           .value(current_cholesterol)
+           .max(2800)
+           .step(50)
            .axis(true)
            .on("slide", function(evt,value) {
-             d3.select('#year').text(value);
-             current_year = value;
-             getAndDrawChance(current_age, current_year, current_nodes)
-           }
-           )
-       );
-
-     d3.select('#nodes_slider')
-       .call(
-         d3.slider()
-           .value(current_nodes)
-           .max(40)
-           .step(1)
-           .axis(true)
-           .on("slide", function(evt,value) {
-             d3.select('#nodes').text(value);
-             current_nodes = value;
-             getAndDrawChance(current_age, current_year, current_nodes)
+             d3.select('#cholesterol').text(value);
+             current_cholesterol = value;
+             getAndDrawChance(current_sugar, current_age, current_cholesterol)
            }
            )
        );
