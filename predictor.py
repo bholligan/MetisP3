@@ -9,15 +9,15 @@ import pickle
 
 # Load the model from a pickle file
 with open('diabetes_xgboost.pkl', 'rb') as f:
-    clf = pickle.load(f) #,encoding = 'Latin1')
+    clf = pickle.load(f) # ,encoding = 'Latin1')
 with open('diabetes_med.pkl', 'rb') as f:
-    meds = pickle.load(f) #, encoding = 'Latin1')
+    meds = pickle.load(f) # ,encoding = 'Latin1')
 median_prob = clf.predict_proba(meds)[0][0]
 
 with open('k_obesity_xgb.pkl', 'rb') as f:
-    clf_k_obesity = pickle.load(f)
+     clf_k_obesity = pickle.load(f)
 with open('k_obesity_meds.pkl', 'rb') as f:
-    meds_k_obesity = pickle.load(f)
+     meds_k_obesity = pickle.load(f)
 median_k_obesity = clf_k_obesity.predict_proba(meds_k_obesity)[0][1]
 
 def change_df(df, s, a, c):
