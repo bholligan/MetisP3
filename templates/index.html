@@ -78,8 +78,8 @@
      var current_age = 48;
      var current_cholesterol = 218;
      var current_risk = 1;
-     var median_prob = .3;
-     var max_prob = 1/median_prob;
+     var m_prob = .15775;
+     var max_prob = .5/m_prob;
 
      var chart = d3.select("#bar_chart")
                    .append("svg:svg")
@@ -111,11 +111,12 @@
 
 
      <!-- FUNCTION TO GET CHANCE FROM YOUR PREDICTOR WITH AJAX AND CHANGE BAR  HEIGHT -->
-     function getAndDrawChance(sugar, age, cholesterol){
 
-      var data = JSON.stringify({
-        example: [* PUT ALL FEATURES HERE, INCLUDING SLIDERS AND MEDIAN *]
-      });
+      <!-- Sugar is index 13, Age is 15, Cholesterol is 8 -->
+     function getAndDrawChance(sugar, age, cholesterol){
+      
+      var data = JSON.stringify(
+        [sugar, age, cholesterol]);
 
        $.ajax({
          type: "POST",
@@ -125,7 +126,8 @@
          async: true,
          data: data,
          success: function (data) {
-           var chance = 100 * data["rel_score"];
+           var chance = data["rel_score"];
+           console.log(data["rel_score"]);
            d3.select("#chancebar")
              .attr("width", chance_scale(chance));
            d3.select("#percent_text")
