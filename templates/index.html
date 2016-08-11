@@ -92,11 +92,11 @@
      var bar = chart.append("g")
                     .attr("class", "bar")
 
-       bar.append("svg:rect")
-          .attr("id", "chancebar")
-          .attr("class", "bar")
-          .attr("width", chance_scale(current_risk))
-          .attr("height", 50);
+     bar.append("svg:rect")
+        .attr("id", "chancebar")
+        .attr("class", "bar")
+        .attr("width", chance_scale(current_risk))
+        .attr("height", 50);
 
      bar.append("text")
         .attr("id", "percent_text")
@@ -128,7 +128,8 @@
            var chance = data["rel_score"];
            console.log(data["rel_score"]);
            d3.select("#chancebar")
-             .attr("width", chance_scale(chance));
+             .attr("width", chance_scale(chance))
+ 			 .attr("fill", hue(chance));
            d3.select("#percent_text")
              .attr("x", chance_scale(chance-.2))
              .text(chance.slice(0,4));
@@ -186,6 +187,11 @@
            }
            )
        );
+
+  function hue(h) {
+    handle.attr("cx", x(h));
+    svg.style("background-color", d3.hsl(h, 0.8, 0.8));
+  }
 
     </script>
   </body>

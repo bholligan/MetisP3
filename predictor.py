@@ -9,9 +9,9 @@ import pickle
 
 # Load the model from a pickle file
 with open('diabetes_xgboost.pkl', 'rb') as f:
-    clf = pickle.load(f, encoding = 'Latin1')
+    clf = pickle.load(f) #,encoding = 'Latin1')
 with open('diabetes_med.pkl', 'rb') as f:
-    meds = pickle.load(f, encoding = 'Latin1')
+    meds = pickle.load(f) #, encoding = 'Latin1')
 median_prob = clf.predict_proba(meds)[0][0]
 
 def change_df(df, s, a, c):
