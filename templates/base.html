@@ -3,10 +3,10 @@
   <head>
     <title>{% block title %}Relative Health Risk{% endblock title %}</title>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="static/d3.slider.css" />
+    <link rel="stylesheet" href={{url_for("static", filename="d3.slider.css")}}/>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="http://d3js.org/d3.v3.min.js"></script>
-    <script src="static/d3.slider.js"></script>
+    <script src={{url_for("static", filename="d3.slider.js")}}></script>
     <style>
 
      body {

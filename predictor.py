@@ -88,7 +88,7 @@ def score2():
     person_prob = clf_k_obesity.predict_proba(df_o)[0][1]
     print("Person P: {}".format(person_prob))
     print("Median P: {}".format(median_k_obesity))
-    rel_score = str(person_prob/median_prob)
+    rel_score = str(person_prob/median_k_obesity)
     print("Rel Score: {}".format(rel_score))
     # Put the result in a nice dict so we can send it as json
     results = {"rel_score": rel_score}
