@@ -27,7 +27,7 @@ def change_df(df, s, a, c):
     return df
 
 def change_k_obesity(df, pov, P1_age, P1_prestige):
-    df.iloc[0, 14] = pov
+    df.iloc[0, 13] = pov
     df.iloc[0, 3] = P1_age
     df.iloc[0, 5] = P1_prestige
     return df
@@ -84,7 +84,7 @@ def score2():
     # Get decision score for our example that came with the request
     data = request.json
     pov, P1_age, P1_prestige = data[0], data[1], data[2]
-    df_o = change_df(meds_k_obesity, pov, P1_age, P1_prestige)
+    df_o = change_k_obesity(meds_k_obesity, pov, P1_age, P1_prestige)
     person_prob = clf_k_obesity.predict_proba(df_o)[0][1]
     print("Person P: {}".format(person_prob))
     print("Median P: {}".format(median_k_obesity))

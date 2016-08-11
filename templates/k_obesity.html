@@ -65,10 +65,10 @@
 
      <!-- FUNCTION TO GET CHANCE FROM YOUR PREDICTOR WITH AJAX AND CHANGE BAR  HEIGHT -->
 
-     function getAndDrawChance(dpov, P1age, P1prestige){
+     function getAndDrawChance(d_pov, P1_age, P1_prestige){
       
       var data = JSON.stringify(
-        [dpov, P1age, P1prestige]);
+        [d_pov, P1_age, P1_prestige]);
 
        $.ajax({
          type: "POST",
