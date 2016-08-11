@@ -1,7 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Diabetes Risk</title>
+    <link rel="stylesheet" href="static/d3.slider.css" />
+    <style>
 
-{% extends 'base.html' %}
+     body {
+       font-family: Verdana,Arial,sans-serif;
+     }
 
-{% block body %}
+     h2 {
+       font-size: 1.2em;
+       margin: 60px 0 5px 0;
+       color: gray
+     }
+
+     .space {
+       margin-bottom: 20 px;
+     }
+
+     .wrapper {
+       width: 800px;
+       margin-left: auto;
+       margin-right: auto;
+       margin-bottom: 0px;
+     }
+
+     #bar_chart {
+       margin-bottom: 0 px;
+     }
+
+     .bar {
+       fill: #FF75A3;
+     }
+
+     span {
+       color: steelblue;
+     }
+
+    </style>
+  </head>
+
+  <body>
+
+
     <div id="chart_area" class="wrapper">
       <h2>Relative Probability of Getting Diabetes</h2>
       <p class="space"></p>
@@ -11,28 +54,31 @@
 
     <div id="sliders" class="wrapper">
 
-      <h2 class="feature">Sugar Intake: <span id="sugar">93.26</span></h2>
+      <h2 class="feature">Sugar Intake: <span id="sugar">99.26</span></h2>
       <div id="sugar_slider"></div>
 
       <h2 class="feature">Age: <span id="age">48</span></h2>
       <div id="age_slider"></div>
 
-      <h2 class="feature">Cholesterol Intake: <span id="cholesterol">210</span></h2>
+      <h2 class="feature">Cholesterol Intake: <span id="cholesterol">218</span></h2>
       <div id="cholesterol_slider"></div>
 
     </div>
-{% endblock body %}
 
-{% block js %}
+    <!-- Import the libraries: jQuery, d3, d3.slider -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="static/d3.slider.js"></script>
+
     <script>
 
      <!-- SINGLE BAR CHART -->
 
-     var current_sugar = 93.26;
+     var current_sugar = 99.26;
      var current_age = 48;
-     var current_cholesterol = 210;
+     var current_cholesterol = 218;
      var current_risk = 1.0;
-     var max_prob = 3*{{median_prob}}/{{median_prob}};
+     var max_prob = .5/{{median_prob}};
 
      var chart = d3.select("#bar_chart")
                    .append("svg:svg")
@@ -65,6 +111,7 @@
 
      <!-- FUNCTION TO GET CHANCE FROM YOUR PREDICTOR WITH AJAX AND CHANGE BAR  HEIGHT -->
 
+      <!-- Sugar is index 13, Age is 15, Cholesterol is 8 -->
      function getAndDrawChance(sugar, age, cholesterol){
       
       var data = JSON.stringify(
@@ -99,7 +146,7 @@
          d3.slider()
            .value(current_sugar)
            .step(10)
-           .max(200)
+           .max(1070)
            .axis(true)
            .on("slide", function(evt,value) {
              d3.select('#sugar').text(value);
@@ -129,8 +176,8 @@
        .call(
          d3.slider()
            .value(current_cholesterol)
-           .max(800)
-           .step(10)
+           .max(2800)
+           .step(50)
            .axis(true)
            .on("slide", function(evt,value) {
              d3.select('#cholesterol').text(value);
@@ -141,4 +188,5 @@
        );
 
     </script>
-{% endblock js %}
+  </body>
+</html>

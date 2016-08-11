@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>{% block title %}Relative Health Risk{% endblock title %}</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="static/d3.slider.css" />
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="static/d3.slider.js"></script>
+    <style>
+
+     body {
+       font-family: Verdana,Arial,sans-serif;
+     }
+
+     h2 {
+       font-size: 1.2em;
+       margin: 60px 0 5px 0;
+       color: gray
+     }
+
+     .space {
+       margin-bottom: 20 px;
+     }
+
+     .wrapper {
+       width: 800px;
+       margin-left: auto;
+       margin-right: auto;
+       margin-bottom: 0px;
+     }
+
+     #bar_chart {
+       margin-bottom: 0 px;
+     }
+
+     .bar {
+       fill: #FF75A3;
+     }
+
+     span {
+       color: steelblue;
+     }
+
+    </style>
+    {% block header %}{% endblock header %}
+  </head>
+    <body>
+      <div class="container">
+        {% block body %}{% endblock body %}
+      </div>
+      {% block js %}{% endblock js %}
+    </body>
+</html>
