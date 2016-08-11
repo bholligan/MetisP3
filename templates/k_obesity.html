@@ -32,7 +32,7 @@
      var current_P1age = 34;
      var current_P1prestige = 35;
      var current_risk = 1.0;
-     var max_prob = .5/{{median_prob}};
+     var max_prob = 3*{{median_prob}}/{{median_prob}};
 
      var chart = d3.select("#bar_chart")
                    .append("svg:svg")
@@ -42,6 +42,10 @@
      var chance_scale = d3.scale.linear()
                                 .domain([0, max_prob])
                                 .range([0, 800]);
+
+     var hue_scale = d3.scale.linear()
+               .domain([0, max_prob])
+               .range([100, 0]);
 
      var bar = chart.append("g")
                     .attr("class", "bar")
@@ -81,7 +85,8 @@
            var chance = data["rel_score"];
            console.log(data["rel_score"]);
            d3.select("#chancebar")
-             .attr("width", chance_scale(chance));
+             .attr("width", chance_scale(chance))
+       .style("fill", d3.hsl(hue_scale(chance), 0.9, 0.5));
            d3.select("#percent_text")
              .attr("x", chance_scale(chance-.2))
              .text(chance.slice(0,4));
@@ -118,7 +123,7 @@
            .step(1)
            .axis(true)
            .on("slide", function(evt,value) {
-             d3.select('#Pqage').text(value);
+             d3.select('#P1age').text(value);
              current_P1age = value;
              getAndDrawChance(current_dpov, current_P1age, current_P1prestige)
            }
@@ -139,6 +144,38 @@
            }
            )
        );
+
+        var width = 399;
+        var height = 499;
+        var word = "Diabetes Model";
+
+        var holder = d3.select("body")
+             .append("svg")
+             .attr("width", width)
+             .attr("height", height);
+
+        // draw a rectangle
+        holder.append("a")
+           .attr("xlink:href", "http://0.0.0.0:9000/")
+           .append("rect")
+           .attr("x", 100)
+           .attr("y", 50)
+           .attr("height", 100)
+           .attr("width", 200)
+           .style("fill", "lightgreen")
+           .attr("rx", 10)
+           .attr("ry", 10);
+
+        // draw text on the screen
+        holder.append("text")
+           .attr("x", 200)
+           .attr("y", 100)
+           .style("fill", "black")
+           .style("font-size", "20px")
+           .attr("dy", ".35em")
+           .attr("text-anchor", "middle")
+           .style("pointer-events", "none")
+           .text(word);
 
     </script>
 {% endblock js %}
