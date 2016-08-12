@@ -3,7 +3,7 @@
 
 {% block body %}
     <div id="chart_area" class="wrapper">
-      <h2>Relative Risk of Getting Diabetes</h2>
+      <h2 class="t_page">Relative Risk of Getting Diabetes</h2>
       <p class="space"></p>
       <div id="bar_chart">
       </div>
@@ -21,6 +21,18 @@
       <div id="cholesterol_slider"></div>
 
     </div>
+    <style>
+    .t_page {
+      font-size: 1.2em;
+       height: 60px;
+       padding-top: 60px;
+       text-align: center;
+       margin: 0px 0 0px 0;
+       color: black;
+       background: url(http://olqw.org/wp-content/uploads/2015/07/ca127cm-o.png);
+       background-size: 400px 120px;
+    }
+    </style>
 {% endblock body %}
 
 {% block js %}
