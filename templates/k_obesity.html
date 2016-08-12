@@ -3,7 +3,8 @@
 
 {% block body %}
     <div id="chart_area" class="wrapper">
-      <h2 class='t_page'>Risk of Kindergarten Obesity</h2>
+    <h3 class="h_img"></h3>
+      <h2 class='t_text'>Risk of Kindergarten Obesity</h2>
       <p class="space"></p>
       <div id="bar_chart">
       </div>
@@ -25,16 +26,14 @@
 
     </div>
     <style>
-    .t_page {
-      font-size: 1.2em;
-       height: 60px;
-       padding-top: 60px;
-       text-align: center;
-       margin: 0px 0 0px 0;
-       color: black;
-       background: url(http://previews.123rf.com/images/nenochka/nenochka1202/nenochka120200002/12159403-Candy-pattern-for-tea-Retro-style--Stock-Vector-cake.jpg);
-       background-size: 300px 300px;
-    }
+      .h_img {
+        height: 120px;
+        background: url(http://previews.123rf.com/images/nenochka/nenochka1202/nenochka120200002/12159403-Candy-pattern-for-tea-Retro-style--Stock-Vector-cake.jpg);
+        background-size: 300px 300px;
+      }
+      .t_text {
+        margin: 0px 0 5px 0;;
+      }
     </style>
 {% endblock body %}
 
@@ -57,7 +56,7 @@
      var chart = d3.select("#bar_chart")
                    .append("svg:svg")
                    .attr("width", 800)
-                   .attr("height", 100);
+                   .attr("height", 70);
 
      var chance_scale = d3.scale.linear()
                                 .domain([0, max_prob])

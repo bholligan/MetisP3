@@ -3,7 +3,8 @@
 
 {% block body %}
     <div id="chart_area" class="wrapper">
-      <h2 class="t_page">Relative Risk of Getting Diabetes</h2>
+      <h3 class="h_img"></h3>
+      <h2 class= 't_text'>Relative Risk of Getting Diabetes</h2>
       <p class="space"></p>
       <div id="bar_chart">
       </div>
@@ -22,15 +23,13 @@
 
     </div>
     <style>
-    .t_page {
-      font-size: 1.2em;
-       height: 60px;
-       padding-top: 60px;
-       text-align: center;
-       margin: 0px 0 0px 0;
-       color: black;
-       background: url(http://olqw.org/wp-content/uploads/2015/07/ca127cm-o.png);
-       background-size: 400px 120px;
+    .h_img {
+      height: 120px;
+      background: url(http://olqw.org/wp-content/uploads/2015/07/ca127cm-o.png);
+      background-size: 400px 120px;
+    }
+    .t_text {
+      margin: 0px 0 5px 0;;
     }
     </style>
 {% endblock body %}
@@ -52,7 +51,7 @@
      var chart = d3.select("#bar_chart")
                    .append("svg:svg")
                    .attr("width", 800)
-                   .attr("height", 100);
+                   .attr("height", 70);
 
      var chance_scale = d3.scale.linear()
                                 .domain([0, max_prob])
