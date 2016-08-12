@@ -3,7 +3,7 @@
 
 {% block body %}
     <div id="chart_area" class="wrapper">
-      <h2>Relative Probability of Kindergarten Obesity</h2>
+      <h2>Risk of Kindergarten Obesity</h2>
       <p class="space"></p>
       <div id="bar_chart">
       </div>
@@ -17,8 +17,11 @@
       <h2 class="feature">Parent 1 Age: <span id="P1age">34</span></h2>
       <div id="P1age_slider"></div>
 
-      <h2 class="feature">Parent 1 Prestige: <span id="P1prestige">35</span></h2>
+      <h2 class="feature">Parent Job Prestige: <span id="P1prestige">35</span></h2>
       <div id="P1prestige_slider"></div>
+
+      <h2 class="feature">Income Category: <span id="income">11</span></h2>
+      <div id="income_slider"></div>
 
     </div>
 {% endblock body %}
@@ -31,8 +34,13 @@
      var current_dpov = 16;
      var current_P1age = 34;
      var current_P1prestige = 35;
+     var current_income = 11
      var current_risk = 1.0;
      var max_prob = 3*{{median_prob}}/{{median_prob}};
+
+    var top_margin = 3
+    var left_margin = 3
+    var right_margin = 3
 
      var chart = d3.select("#bar_chart")
                    .append("svg:svg")
@@ -41,11 +49,20 @@
 
      var chance_scale = d3.scale.linear()
                                 .domain([0, max_prob])
-                                .range([0, 800]);
+                                .range([0+left_margin, 800 - right_margin]);
 
      var hue_scale = d3.scale.linear()
                .domain([0, max_prob])
                .range([100, 0]);
+
+      var border = chart.append("rect")
+            .attr("width", 800 - 3)
+            .attr("height", 50+2)
+            .attr("x", 1)
+            .attr("y", 1)
+            .style("fill", 'white')
+            .style("stroke-width", 2)
+            .style("stroke", 'black')
 
      var bar = chart.append("g")
                     .attr("class", "bar")
@@ -53,6 +70,8 @@
        bar.append("svg:rect")
           .attr("id", "chancebar")
           .attr("class", "bar")
+          .attr("x", 2)
+          .attr("y", 2)
           .attr("width", chance_scale(current_risk))
           .attr("height", 50);
 
@@ -72,7 +91,7 @@
      function getAndDrawChance(d_pov, P1_age, P1_prestige){
       
       var data = JSON.stringify(
-        [d_pov, P1_age, P1_prestige]);
+        [d_pov, P1_age, P1_prestige, current_income]);
 
        $.ajax({
          type: "POST",
@@ -109,7 +128,7 @@
            .on("slide", function(evt,value) {
              d3.select('#dpov').text(value);
              current_dpov = value;
-             getAndDrawChance(current_dpov, current_P1age, current_P1prestige)
+             getAndDrawChance(current_dpov, current_P1age, current_P1prestige, current_income)
            }
            )
        );
@@ -125,7 +144,7 @@
            .on("slide", function(evt,value) {
              d3.select('#P1age').text(value);
              current_P1age = value;
-             getAndDrawChance(current_dpov, current_P1age, current_P1prestige)
+             getAndDrawChance(current_dpov, current_P1age, current_P1prestige, current_income)
            }
            )
        );
@@ -140,14 +159,30 @@
            .on("slide", function(evt,value) {
              d3.select('#P1prestige').text(value);
              current_P1prestige = value;
-             getAndDrawChance(current_dpov, current_P1age, current_P1prestige)
+             getAndDrawChance(current_dpov, current_P1age, current_P1prestige, current_income)
            }
            )
        );
 
-        var width = 399;
-        var height = 499;
-        var word = "Diabetes Model";
+       d3.select('#income_slider')
+       .call(
+         d3.slider()
+           .value(current_income)
+           .max(18)
+           .min(1)
+           .step(1)
+           .axis(true)
+           .on("slide", function(evt,value) {
+             d3.select('#income').text(value);
+             current_income = value;
+             getAndDrawChance(current_dpov, current_P1age, current_P1prestige, current_income)
+           }
+           )
+       );
+
+        var width = 600;
+        var height = 200;
+        var word = "Go To Diabetes Model";
 
         var holder = d3.select("body")
              .append("svg")
@@ -160,16 +195,16 @@
            .append("rect")
            .attr("x", 100)
            .attr("y", 50)
-           .attr("height", 100)
-           .attr("width", 200)
+           .attr("height", 80)
+           .attr("width", 300)
            .style("fill", "lightgreen")
            .attr("rx", 10)
            .attr("ry", 10);
 
         // draw text on the screen
         holder.append("text")
-           .attr("x", 200)
-           .attr("y", 100)
+           .attr("x", 250)
+           .attr("y", 90)
            .style("fill", "black")
            .style("font-size", "20px")
            .attr("dy", ".35em")
